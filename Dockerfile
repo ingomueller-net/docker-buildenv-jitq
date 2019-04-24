@@ -2,7 +2,7 @@ FROM ingomuellernet/llvmgold:7.0.1 as gold-builder
 FROM ingomuellernet/boost as boost-builder
 FROM ingomuellernet/cppcheck as cppcheck-builder
 
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 MAINTAINER Ingo Müller <ingo.mueller@inf.ethz.ch>
 
 # Basics
@@ -30,13 +30,13 @@ RUN mkdir /opt/clang+llvm-7.0.1/ && \
 COPY --from=gold-builder /tmp/llvm-7.0.1.src/build/lib/LLVMgold.so /opt/clang+llvm-7.0.1/lib
 
 # Cmake
-RUN mkdir /opt/cmake-3.13.4/ && \
-    cd /opt/cmake-3.13.4/ && \
-    wget https://cmake.org/files/v3.13/cmake-3.13.4-Linux-x86_64.tar.gz -O - \
+RUN mkdir /opt/cmake-3.14.3/ && \
+    cd /opt/cmake-3.14.3/ && \
+    wget https://cmake.org/files/v3.14/cmake-3.14.3-Linux-x86_64.tar.gz -O - \
         | tar -xz --strip-components=1 && \
     for file in bin/*; \
     do \
-        ln -s $PWD/$file /usr/bin/$(basename $file)-3.13; \
+        ln -s $PWD/$file /usr/bin/$(basename $file)-3.14; \
     done
 
 # Copy cppcheck over from builder
