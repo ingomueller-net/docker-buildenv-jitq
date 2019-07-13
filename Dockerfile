@@ -1,6 +1,7 @@
+FROM ingomuellernet/arrow:0.14 as arrow-builder
+FROM ingomuellernet/boost:1.70.0 as boost-builder
+FROM ingomuellernet/cppcheck:1.80-1.88 as cppcheck-builder
 FROM ingomuellernet/llvmgold:7.0.1 as gold-builder
-FROM ingomuellernet/boost as boost-builder
-FROM ingomuellernet/cppcheck as cppcheck-builder
 
 FROM ubuntu:bionic
 MAINTAINER Ingo Müller <ingo.mueller@inf.ethz.ch>
@@ -29,14 +30,14 @@ RUN mkdir /opt/clang+llvm-7.0.1/ && \
 # Copy llvm gold plugin over from builder
 COPY --from=gold-builder /tmp/llvm-7.0.1.src/build/lib/LLVMgold.so /opt/clang+llvm-7.0.1/lib
 
-# Cmake
-RUN mkdir /opt/cmake-3.14.3/ && \
-    cd /opt/cmake-3.14.3/ && \
-    wget https://cmake.org/files/v3.14/cmake-3.14.3-Linux-x86_64.tar.gz -O - \
+# CMake
+RUN mkdir /opt/cmake-3.14.5/ && \
+    cd /opt/cmake-3.14.5/ && \
+    wget https://cmake.org/files/v3.14/cmake-3.14.5-Linux-x86_64.tar.gz -O - \
         | tar -xz --strip-components=1 && \
     for file in bin/*; \
     do \
-        ln -s $PWD/$file /usr/bin/$(basename $file)-3.14; \
+        ln -s $PWD/$file /usr/bin/$(basename $file); \
     done
 
 # Copy cppcheck over from builder
@@ -55,6 +56,11 @@ RUN for file in /opt/boost-1.*/include/*; do \
     for file in /opt/boost-1.*/lib/*; do \
         ln -s $file /usr/lib/; \
     done
+
+# Copy arrow over from builder
+COPY --from=arrow-builder /opt/arrow-0.14/ /opt/arrow-0.14/
+
+RUN pip3 install /opt/arrow-*/share/*.whl
 
 # Other packages
 RUN apt-get update && \
