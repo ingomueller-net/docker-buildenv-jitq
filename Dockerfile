@@ -1,4 +1,5 @@
 FROM ingomuellernet/arrow:0.14 as arrow-builder
+FROM ingomuellernet/aws-sdk-cpp:1.7.138 as aws-sdk-cpp-builder
 FROM ingomuellernet/boost:1.70.0 as boost-builder
 FROM ingomuellernet/cppcheck:1.80-1.88 as cppcheck-builder
 FROM ingomuellernet/llvmgold:7.0.1 as gold-builder
@@ -56,6 +57,18 @@ RUN for file in /opt/boost-1.*/include/*; do \
     for file in /opt/boost-1.*/lib/*; do \
         ln -s $file /usr/lib/; \
     done
+
+# Copy AWS SDK over from builder and install dependencies
+COPY --from=aws-sdk-cpp-builder /opt/aws-sdk-cpp-1.7/ /opt/aws-sdk-cpp-1.7/
+
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        libcurl4-openssl-dev \
+        libpulse-dev \
+        libssl-dev \
+        uuid-dev \
+        zlib1g-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy arrow over from builder
 COPY --from=arrow-builder /opt/arrow-0.14/ /opt/arrow-0.14/
