@@ -28,6 +28,8 @@ RUN mkdir /opt/clang+llvm-7.0.1/ && \
     done && \
     cp /opt/clang+llvm-7.0.1/lib/libomp.so /opt/clang+llvm-7.0.1/lib/libomp.so.5
 
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/clang+llvm-7.0.1
+
 # Copy llvm gold plugin over from builder
 COPY --from=gold-builder /tmp/llvm-7.0.1.src/build/lib/LLVMgold.so /opt/clang+llvm-7.0.1/lib
 
@@ -51,15 +53,19 @@ RUN for bin in /opt/cppcheck-1.*/bin/cppcheck-1.*; do \
 # Copy boost over from builder
 COPY --from=boost-builder /opt/ /opt/
 
-RUN for file in /opt/boost-1.*/include/*; do \
+RUN for file in /opt/boost-1.70.0/include/*; do \
         ln -s $file /usr/include/; \
     done && \
-    for file in /opt/boost-1.*/lib/*; do \
+    for file in /opt/boost-1.70.0/lib/*; do \
         ln -s $file /usr/lib/; \
     done
 
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/boost-1.70
+
 # Copy AWS SDK over from builder and install dependencies
 COPY --from=aws-sdk-cpp-builder /opt/aws-sdk-cpp-1.7/ /opt/aws-sdk-cpp-1.7/
+
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/aws-sdk-cpp-1.7
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -72,6 +78,8 @@ RUN apt-get update && \
 
 # Copy arrow over from builder
 COPY --from=arrow-builder /opt/arrow-0.14/ /opt/arrow-0.14/
+
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/arrow-0.14
 
 RUN pip3 install /opt/arrow-*/share/*.whl
 
