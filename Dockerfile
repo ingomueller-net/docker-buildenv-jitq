@@ -20,7 +20,7 @@ RUN apt-get update && \
 # Clang+LLVM
 RUN mkdir /opt/clang+llvm-7.0.1/ && \
     cd /opt/clang+llvm-7.0.1/ && \
-    wget http://releases.llvm.org/7.0.1/clang+llvm-7.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz -O - \
+    wget --progress=dot:giga http://releases.llvm.org/7.0.1/clang+llvm-7.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz -O - \
          | tar -x -I xz --strip-components=1 && \
     for file in bin/*; \
     do \
@@ -36,7 +36,7 @@ COPY --from=gold-builder /tmp/llvm-7.0.1.src/build/lib/LLVMgold.so /opt/clang+ll
 # CMake
 RUN mkdir /opt/cmake-3.14.5/ && \
     cd /opt/cmake-3.14.5/ && \
-    wget https://cmake.org/files/v3.14/cmake-3.14.5-Linux-x86_64.tar.gz -O - \
+    wget --progress=dot:giga https://cmake.org/files/v3.14/cmake-3.14.5-Linux-x86_64.tar.gz -O - \
         | tar -xz --strip-components=1 && \
     for file in bin/*; \
     do \
