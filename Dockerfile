@@ -60,7 +60,7 @@ RUN for file in /opt/boost-1.70.0/include/*; do \
         ln -s $file /usr/lib/; \
     done
 
-ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/boost-1.70
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/boost-1.70.0
 
 # Copy AWS SDK over from builder and install dependencies
 COPY --from=aws-sdk-cpp-builder /opt/aws-sdk-cpp-1.7/ /opt/aws-sdk-cpp-1.7/
