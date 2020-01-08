@@ -1,6 +1,6 @@
-FROM ingomuellernet/arrow:0.14 as arrow-builder
+FROM ingomuellernet/arrow:0.14-1 as arrow-builder
 FROM ingomuellernet/aws-sdk-cpp:1.7.138 as aws-sdk-cpp-builder
-FROM ingomuellernet/boost:1.70.0 as boost-builder
+FROM ingomuellernet/boost:1.72.0-1 as boost-builder
 FROM ingomuellernet/cppcheck:1.80-1.88 as cppcheck-builder
 FROM ingomuellernet/llvmgold:7.0.1 as gold-builder
 
@@ -53,14 +53,14 @@ RUN for bin in /opt/cppcheck-1.*/bin/cppcheck-1.*; do \
 # Copy boost over from builder
 COPY --from=boost-builder /opt/ /opt/
 
-RUN for file in /opt/boost-1.70.0/include/*; do \
+RUN for file in /opt/boost-1.72.0/include/*; do \
         ln -s $file /usr/include/; \
     done && \
-    for file in /opt/boost-1.70.0/lib/*; do \
+    for file in /opt/boost-1.72.0/lib/*; do \
         ln -s $file /usr/lib/; \
     done
 
-ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/boost-1.70.0
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/boost-1.72.0
 
 # Copy AWS SDK over from builder and install dependencies
 COPY --from=aws-sdk-cpp-builder /opt/aws-sdk-cpp-1.7/ /opt/aws-sdk-cpp-1.7/
