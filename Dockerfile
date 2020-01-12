@@ -2,7 +2,7 @@ FROM ingomuellernet/arrow:0.14-1 as arrow-builder
 FROM ingomuellernet/aws-sdk-cpp:1.7.138 as aws-sdk-cpp-builder
 FROM ingomuellernet/boost:1.72.0-1 as boost-builder
 FROM ingomuellernet/cppcheck:1.80-1.88 as cppcheck-builder
-FROM ingomuellernet/llvmgold:7.0.1 as gold-builder
+FROM ingomuellernet/llvmgold:9.0.0 as gold-builder
 
 FROM ubuntu:bionic
 MAINTAINER Ingo Müller <ingo.mueller@inf.ethz.ch>
@@ -18,20 +18,20 @@ RUN apt-get update && \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Clang+LLVM
-RUN mkdir /opt/clang+llvm-7.0.1/ && \
-    cd /opt/clang+llvm-7.0.1/ && \
-    wget --progress=dot:giga http://releases.llvm.org/7.0.1/clang+llvm-7.0.1-x86_64-linux-gnu-ubuntu-16.04.tar.xz -O - \
+RUN mkdir /opt/clang+llvm-9.0.0/ && \
+    cd /opt/clang+llvm-9.0.0/ && \
+    wget --progress=dot:giga http://releases.llvm.org/9.0.0/clang+llvm-9.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz -O - \
          | tar -x -I xz --strip-components=1 && \
     for file in bin/*; \
     do \
-        ln -s $PWD/$file /usr/bin/$(basename $file)-7.0; \
+        ln -s $PWD/$file /usr/bin/$(basename $file)-9.0; \
     done && \
-    cp /opt/clang+llvm-7.0.1/lib/libomp.so /opt/clang+llvm-7.0.1/lib/libomp.so.5
+    cp /opt/clang+llvm-9.0.0/lib/libomp.so /opt/clang+llvm-9.0.0/lib/libomp.so.5
 
-ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/clang+llvm-7.0.1
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/clang+llvm-9.0.0
 
 # Copy llvm gold plugin over from builder
-COPY --from=gold-builder /tmp/llvm-7.0.1.src/build/lib/LLVMgold.so /opt/clang+llvm-7.0.1/lib
+COPY --from=gold-builder /tmp/llvm-9.0.0.src/build/lib/LLVMgold.so /opt/clang+llvm-9.0.0/lib
 
 # CMake
 RUN mkdir /opt/cmake-3.14.5/ && \
