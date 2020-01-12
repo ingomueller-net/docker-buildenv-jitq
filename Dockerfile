@@ -12,6 +12,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         build-essential \
         git \
+        libtinfo-dev \
         python3-pip \
         wget \
         xz-utils \
