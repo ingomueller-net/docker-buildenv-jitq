@@ -95,12 +95,18 @@ RUN apt-get update && \
 # Python packages
 RUN pip3 install --upgrade \
         astroid==2.2.5 \
+        atomicwrites==1.3.0 \
         attrs==19.1.0 \
         autopep8==1.4.3 \
+        boto3==1.9.192 \
+        botocore==1.12.192 \
         cffi==1.12.2 \
         cycler==0.10.0 \
         dask==1.1.5 \
+        docutils==0.14 \
+        importlib-metadata==0.19 \
         isort==4.3.16 \
+        jmespath==0.9.4 \
         jsonmerge==1.6.0 \
         jsonschema==3.0.1 \
         kiwisolver==1.0.1 \
@@ -108,10 +114,15 @@ RUN pip3 install --upgrade \
         llvmlite==0.28.0 \
         matplotlib==3.0.3 \
         mccabe==0.6.1 \
+        more-itertools==7.2.0 \
         numba==0.42.0 \
         numpy==1.16.2 \
+        packaging==19.1 \
         pandas==0.24.2 \
+        pathlib2==2.3.4 \
+        pluggy==0.12.0 \
         psutil==5.6.1 \
+        py==1.8.0 \
         py4j==0.10.7 \
         pycodestyle==2.5.0 \
         pycparser==2.19 \
@@ -119,12 +130,17 @@ RUN pip3 install --upgrade \
         pyparsing==2.3.1 \
         pyrsistent==0.14.11 \
         pyspark==2.4.0 \
+        pytest==5.0.1 \
         python-dateutil==2.8.0 \
         pytz==2018.9 \
+        s3transfer==0.2.1 \
         scikit-learn==0.20.3 \
         scipy==1.2.1 \
         six==1.12.0 \
         sklearn==0.0 \
         typed-ast==1.3.1 \
+        urllib3==1.25.3 \
+        wcwidth==0.1.7 \
         wrapt==1.11.1 \
+        zipp==0.5.2 \
     && rm -r ~/.cache/pip
