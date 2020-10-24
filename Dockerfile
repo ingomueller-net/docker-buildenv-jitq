@@ -88,6 +88,8 @@ RUN pip3 install /opt/arrow-*/share/*.whl
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         libgraphviz-dev \
+        graphviz \
+        time \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Python packages
