@@ -1,10 +1,10 @@
-FROM ingomuellernet/arrow:0.14-2 as arrow-builder
+FROM ingomuellernet/arrow:0.14-3 as arrow-builder
 FROM ingomuellernet/aws-sdk-cpp:1.7.138 as aws-sdk-cpp-builder
 FROM ingomuellernet/boost:1.74.0 as boost-builder
 FROM ingomuellernet/cppcheck:1.80-1.90 as cppcheck-builder
 FROM ingomuellernet/llvmgold:9.0.0 as gold-builder
 
-FROM ubuntu:bionic
+FROM ubuntu:focal
 MAINTAINER Ingo Müller <ingo.mueller@inf.ethz.ch>
 
 # Basics
@@ -12,7 +12,9 @@ RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
         build-essential \
         git \
+        libtinfo5 \
         libtinfo-dev \
+        pkg-config \
         python3-pip \
         wget \
         xz-utils \
@@ -30,6 +32,8 @@ RUN mkdir /opt/clang+llvm-9.0.0/ && \
     cp /opt/clang+llvm-9.0.0/lib/libomp.so /opt/clang+llvm-9.0.0/lib/libomp.so.5
 
 ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/clang+llvm-9.0.0
+ENV CFLAGS $CFLAGS -fno-builtin
+ENV CXXFLAGS $CFLAGS -fno-builtin
 
 # Copy llvm gold plugin over from builder
 COPY --from=gold-builder /tmp/llvm-9.0.0.src/build/lib/LLVMgold.so /opt/clang+llvm-9.0.0/lib
