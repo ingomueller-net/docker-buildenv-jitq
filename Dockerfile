@@ -97,54 +97,58 @@ RUN apt-get update && \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Python packages
-RUN pip3 install --upgrade \
-        astroid==2.2.5 \
-        atomicwrites==1.3.0 \
-        attrs==19.1.0 \
-        autopep8==1.4.3 \
-        boto3==1.9.192 \
-        botocore==1.12.192 \
-        cffi==1.12.2 \
+# cython is required to build this version of scikit-learn
+RUN pip3 install --upgrade cython && \
+    pip3 install --upgrade \
+        astroid==2.4.2 \
+        attrs==20.3.0 \
+        autopep8==1.5.4 \
+        boto3==1.16.16 \
+        botocore==1.19.16 \
+        cffi==1.14.3 \
         cycler==0.10.0 \
-        dask==1.1.5 \
-        docutils==0.14 \
-        importlib-metadata==0.19 \
-        isort==4.3.16 \
-        jmespath==0.9.4 \
-        jsonmerge==1.6.0 \
-        jsonschema==3.0.1 \
-        kiwisolver==1.0.1 \
-        lazy-object-proxy==1.3.1 \
-        llvmlite==0.28.0 \
-        matplotlib==3.0.3 \
+        dask==1.2.2 \
+        gcovr==4.2 \
+        importlib-metadata==2.0.0 \
+        iniconfig==1.1.1 \
+        isort==5.6.4 \
+        Jinja2==2.11.2 \
+        jmespath==0.10.0 \
+        joblib==0.17.0 \
+        jsonmerge==1.7.0 \
+        jsonschema==3.2.0 \
+        kiwisolver==1.3.1 \
+        lazy-object-proxy==1.4.3 \
+        llvmlite==0.31.0 \
+        lxml==4.6.1 \
+        MarkupSafe==1.1.1 \
+        matplotlib==3.3.3 \
         mccabe==0.6.1 \
-        more-itertools==7.2.0 \
-        numba==0.42.0 \
-        numpy==1.16.2 \
-        packaging==19.1 \
-        pandas==0.24.2 \
-        pathlib2==2.3.4 \
-        pluggy==0.12.0 \
-        psutil==5.6.1 \
-        py==1.8.0 \
-        py4j==0.10.7 \
-        pycodestyle==2.5.0 \
-        pycparser==2.19 \
-        pylint==2.3.1 \
-        pyparsing==2.3.1 \
-        pyrsistent==0.14.11 \
-        pyspark==2.4.0 \
-        pytest==5.0.1 \
-        python-dateutil==2.8.0 \
-        pytz==2018.9 \
-        s3transfer==0.2.1 \
-        scikit-learn==0.20.3 \
-        scipy==1.2.1 \
-        six==1.12.0 \
-        sklearn==0.0 \
-        typed-ast==1.3.1 \
-        urllib3==1.25.3 \
-        wcwidth==0.1.7 \
-        wrapt==1.11.1 \
-        zipp==0.5.2 \
+        numba==0.48.0 \
+        numpy==1.19.4 \
+        packaging==20.4 \
+        pandas==0.25.3 \
+        Pillow==8.0.1 \
+        pluggy==0.13.1 \
+        psutil==5.7.3 \
+        py==1.9.0 \
+        py4j==0.10.9 \
+        pycodestyle==2.6.0 \
+        pycparser==2.20 \
+        pylint==2.6.0 \
+        pyparsing==2.4.7 \
+        pyrsistent==0.17.3 \
+        pyspark==3.0.1 \
+        pytest==6.1.2 \
+        python-dateutil==2.8.1 \
+        pytz==2020.4 \
+        s3transfer==0.3.3 \
+        scikit-learn==0.21.3 \
+        scipy==1.5.4 \
+        six==1.15.0 \
+        toml==0.10.2 \
+        typed-ast==1.4.1 \
+        urllib3==1.25.11 \
+        wrapt==1.12.1 \
+        zipp==3.4.0 \
     && rm -r ~/.cache/pip
