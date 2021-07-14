@@ -2,7 +2,6 @@ FROM ingomuellernet/arrow:0.14-3 as arrow-builder
 FROM ingomuellernet/aws-sdk-cpp:1.7.138 as aws-sdk-cpp-builder
 FROM ingomuellernet/boost:1.74.0 as boost-builder
 FROM ingomuellernet/cppcheck:1.80-1.90 as cppcheck-builder
-FROM ingomuellernet/llvmgold:11.0.0 as gold-builder
 
 FROM ubuntu:focal
 MAINTAINER Ingo Müller <ingo.mueller@inf.ethz.ch>
@@ -22,20 +21,19 @@ RUN apt-get update && \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Clang+LLVM
-RUN mkdir /opt/clang+llvm-11.0.0/ && \
-    cd /opt/clang+llvm-11.0.0/ && \
-    wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-11.0.0/clang+llvm-11.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz -O - \
+RUN mkdir /opt/clang+llvm-11.1.0/ && \
+    cd /opt/clang+llvm-11.1.0/ && \
+    wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-11.1.0/clang+llvm-11.1.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz -O - \
          | tar -x -I xz --strip-components=1 && \
     for file in bin/*; \
     do \
-        ln -s $PWD/$file /usr/bin/$(basename $file)-11.0; \
+        ln -s $PWD/$file /usr/bin/$(basename $file)-11.1; \
     done && \
-    cp /opt/clang+llvm-11.0.0/lib/libomp.so /opt/clang+llvm-11.0.0/lib/libomp.so.5
+    ln -s libomp.so /opt/clang+llvm-11.1.0/lib/libomp.so.5 && \
+    update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-11.1 100 && \
+    update-alternatives --install /usr/bin/clang clang /usr/bin/clang-11.1 100
 
-ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/clang+llvm-11.0.0
-
-# Copy llvm gold plugin over from builder
-COPY --from=gold-builder /tmp/llvm-11.0.0.src/build/lib/LLVMgold.so /opt/clang+llvm-11.0.0/lib
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/clang+llvm-11.1.0
 
 # CMake
 RUN mkdir /opt/cmake-3.18.4/ && \
