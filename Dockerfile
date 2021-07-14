@@ -1,4 +1,4 @@
-FROM ingomuellernet/arrow:0.14-4 as arrow-builder
+FROM ingomuellernet/arrow:4.0.1 as arrow-builder
 FROM ingomuellernet/aws-sdk-cpp:1.7.138-1 as aws-sdk-cpp-builder
 FROM ingomuellernet/boost:1.76.0 as boost-builder
 FROM ingomuellernet/cppcheck:1.80-1.90 as cppcheck-builder
@@ -79,9 +79,9 @@ RUN apt-get update && \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Copy arrow over from builder
-COPY --from=arrow-builder /opt/arrow-0.14/ /opt/arrow-0.14/
+COPY --from=arrow-builder /opt/arrow-4.0.1/ /opt/arrow-4.0.1/
 
-ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/arrow-0.14
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/arrow-4.0.1
 
 RUN pip3 install /opt/arrow-*/share/*.whl
 
