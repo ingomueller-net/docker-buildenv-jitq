@@ -1,6 +1,6 @@
-FROM ingomuellernet/arrow:0.14-3 as arrow-builder
-FROM ingomuellernet/aws-sdk-cpp:1.7.138 as aws-sdk-cpp-builder
-FROM ingomuellernet/boost:1.74.0 as boost-builder
+FROM ingomuellernet/arrow:0.14-4 as arrow-builder
+FROM ingomuellernet/aws-sdk-cpp:1.7.138-1 as aws-sdk-cpp-builder
+FROM ingomuellernet/boost:1.76.0 as boost-builder
 FROM ingomuellernet/cppcheck:1.80-1.90 as cppcheck-builder
 
 FROM ubuntu:focal
@@ -36,9 +36,9 @@ RUN mkdir /opt/clang+llvm-11.1.0/ && \
 ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/clang+llvm-11.1.0
 
 # CMake
-RUN mkdir /opt/cmake-3.18.4/ && \
-    cd /opt/cmake-3.18.4/ && \
-    wget --progress=dot:giga https://cmake.org/files/v3.18/cmake-3.18.4-Linux-x86_64.tar.gz -O - \
+RUN mkdir /opt/cmake-3.21.0/ && \
+    cd /opt/cmake-3.21.0/ && \
+    wget --progress=dot:giga https://github.com/Kitware/CMake/releases/download/v3.21.0/cmake-3.21.0-linux-x86_64.tar.gz -O - \
         | tar -xz --strip-components=1 && \
     for file in bin/*; \
     do \
@@ -55,14 +55,14 @@ RUN for bin in /opt/cppcheck-1.*/bin/cppcheck-1.*; do \
 # Copy boost over from builder
 COPY --from=boost-builder /opt/ /opt/
 
-RUN for file in /opt/boost-1.74.0/include/*; do \
+RUN for file in /opt/boost-1.76.0/include/*; do \
         ln -s $file /usr/include/; \
     done && \
-    for file in /opt/boost-1.74.0/lib/*; do \
+    for file in /opt/boost-1.76.0/lib/*; do \
         ln -s $file /usr/lib/; \
     done
 
-ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/boost-1.74.0
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/boost-1.76.0
 
 # Copy AWS SDK over from builder and install dependencies
 COPY --from=aws-sdk-cpp-builder /opt/aws-sdk-cpp-1.7/ /opt/aws-sdk-cpp-1.7/
