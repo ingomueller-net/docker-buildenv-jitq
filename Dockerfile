@@ -97,55 +97,57 @@ RUN apt-get update && \
 # cython is required to build this version of scikit-learn
 RUN pip3 install --upgrade cython && \
     pip3 install --upgrade \
-        astroid==2.4.2 \
-        attrs==20.3.0 \
-        autopep8==1.5.4 \
-        boto3==1.16.16 \
-        botocore==1.19.16 \
-        cffi==1.14.3 \
+        astroid==2.6.2 \
+        attrs==21.2.0 \
+        autopep8==1.5.7 \
+        boto3==1.17.112 \
+        botocore==1.20.112 \
+        cffi==1.14.6 \
         cycler==0.10.0 \
         dask==1.2.2 \
-        gcovr==4.2 \
-        importlib-metadata==2.0.0 \
+        gcovr==5.0 \
+        importlib-metadata==4.6.1 \
         iniconfig==1.1.1 \
-        isort==5.6.4 \
-        Jinja2==2.11.2 \
+        isort==5.9.2 \
+        Jinja2==3.0.1 \
         jmespath==0.10.0 \
-        joblib==0.17.0 \
-        jsonmerge==1.7.0 \
+        joblib==1.0.1 \
+        jsonmerge==1.8.0 \
         jsonschema==3.2.0 \
         kiwisolver==1.3.1 \
-        lazy-object-proxy==1.4.3 \
+        lazy-object-proxy==1.6.0 \
         llvmlite==0.31.0 \
-        lxml==4.6.1 \
-        MarkupSafe==1.1.1 \
-        matplotlib==3.3.3 \
+        lxml==4.6.3 \
+        MarkupSafe==2.0.1 \
+        matplotlib==3.4.2 \
         mccabe==0.6.1 \
         numba==0.48.0 \
-        numpy==1.19.4 \
-        packaging==20.4 \
+        numpy==1.21.0 \
+        packaging==21.0 \
         pandas==0.25.3 \
-        Pillow==8.0.1 \
+        Pillow==8.3.1 \
         pluggy==0.13.1 \
-        psutil==5.7.3 \
-        py==1.9.0 \
+        psutil==5.8.0 \
+        py==1.10.0 \
         py4j==0.10.9 \
-        pycodestyle==2.6.0 \
+        pycodestyle==2.7.0 \
         pycparser==2.20 \
-        pylint==2.6.0 \
+        Pygments==2.9.0 \
+        pylint==2.9.3 \
         pyparsing==2.4.7 \
-        pyrsistent==0.17.3 \
-        pyspark==3.0.1 \
-        pytest==6.1.2 \
-        python-dateutil==2.8.1 \
-        pytz==2020.4 \
-        s3transfer==0.3.3 \
+        pyrsistent==0.18.0 \
+        pyspark==3.1.2 \
+        pytest==6.2.4 \
+        python-dateutil==2.8.2 \
+        pytz==2021.1 \
+        s3transfer==0.4.2 \
         scikit-learn==0.21.3 \
-        scipy==1.5.4 \
-        six==1.15.0 \
+        scipy==1.7.0 \
+        six==1.16.0 \
         toml==0.10.2 \
-        typed-ast==1.4.1 \
-        urllib3==1.25.11 \
+        typed-ast==1.4.3 \
+        typing-extensions==3.10.0.0 \
+        urllib3==1.26.6 \
         wrapt==1.12.1 \
-        zipp==3.4.0 \
+        zipp==3.5.0 \
     && rm -r ~/.cache/pip
