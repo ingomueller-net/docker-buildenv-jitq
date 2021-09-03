@@ -1,5 +1,5 @@
 FROM ingomuellernet/arrow:4.0.1 as arrow-builder
-FROM ingomuellernet/aws-sdk-cpp:1.7.138-1 as aws-sdk-cpp-builder
+FROM ingomuellernet/aws-sdk-cpp:1.9.94 as aws-sdk-cpp-builder
 FROM ingomuellernet/boost:1.76.0 as boost-builder
 FROM ingomuellernet/cppcheck:1.80-1.90 as cppcheck-builder
 
@@ -65,9 +65,9 @@ RUN for file in /opt/boost-1.76.0/include/*; do \
 ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/boost-1.76.0
 
 # Copy AWS SDK over from builder and install dependencies
-COPY --from=aws-sdk-cpp-builder /opt/aws-sdk-cpp-1.7/ /opt/aws-sdk-cpp-1.7/
+COPY --from=aws-sdk-cpp-builder /opt/aws-sdk-cpp-1.9/ /opt/aws-sdk-cpp-1.9/
 
-ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/aws-sdk-cpp-1.7
+ENV CMAKE_PREFIX_PATH $CMAKE_PREFIX_PATH:/opt/aws-sdk-cpp-1.9
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y \
